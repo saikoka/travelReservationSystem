@@ -25,8 +25,23 @@ Login:
 	</table>
 	<input type="submit" value="Login">
 	</form>
+<br>
 
+Register:
+<br>
 
+	<form method="post" action="registerUser.jsp">
+	<table>
+	<tr>
+	<td>User Name:</td><td><input type="text" name="username"></td>
+	</tr>
+	<tr>
+	<td>Password:</td><td><input type="text" name="password"></td>
+	</tr>
+	</table>
+	<input type="submit" value="Register">
+	</form>
+<br>
 
 
 

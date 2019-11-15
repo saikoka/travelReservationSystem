@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>User Authentication</title>
+<title>Registration</title>
 </head>
 <body>
 
-<!-- Access database and validate username and password! -->
+<!-- Add new username and Password combo to database if doesnt exsist -->
 
 </body>
 </html>
