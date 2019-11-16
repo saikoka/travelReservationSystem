@@ -13,9 +13,10 @@ public class ApplicationDB {
 	public Connection getConnection(){
 		
 		//Create a connection string
-		String connectionUrl = "cs336group2db.cxhiefnrjhzy.us-east-2.rds.amazonaws.com";
+		String connectionUrl = "jdbc:mysql://cs336group2db.cxhiefnrjhzy.us-east-2.rds.amazonaws.com/travelReservationSystemV1";
 		Connection connection = null;
 		
+
 		try {
 			//Load JDBC driver - the interface standardizing the connection procedure. Look at WEB-INF\lib for a mysql connector jar file, otherwise it fails.
 			Class.forName("com.mysql.jdbc.Driver").newInstance();

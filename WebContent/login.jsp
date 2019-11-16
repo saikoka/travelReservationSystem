@@ -27,16 +27,17 @@ Login:
 	</form>
 <br>
 
+
 Register:
 <br>
 
-	<form method="post" action="registerUser.jsp">
+	<form method="post" action="registerCustomer.jsp">
 	<table>
 	<tr>
-	<td>User Name:</td><td><input type="text" name="username"></td>
+	<td>User Name:</td><td><input type="text" name="rusername"></td>
 	</tr>
 	<tr>
-	<td>Password:</td><td><input type="text" name="password"></td>
+	<td>Password:</td><td><input type="text" name="rpassword"></td>
 	</tr>
 	</table>
 	<input type="submit" value="Register">
