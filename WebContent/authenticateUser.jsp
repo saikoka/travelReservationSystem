@@ -28,23 +28,23 @@
 		
 		
 		
-		String getUserTuple = "Select * from Users Where UserID = ?";
+		String getUserTuple = "Select * from Users Where UserID = ? AND Pass = ?";
 		
 		PreparedStatement psGetUserTuple = con.prepareStatement(getUserTuple);
 		
 		psGetUserTuple.setString(1, username);
+		psGetUserTuple.setString(2, password);
 		
 		ResultSet userTuple = psGetUserTuple.executeQuery();
 		
-		userTuple.next();
-		String tupleUsername = userTuple.getString("UserID");
-		String tuplePassword = userTuple.getString("Pass");
-		
-		if(tuplePassword.compareToIgnoreCase(password) == 0
-				&& tupleUsername.compareToIgnoreCase(username) == 0){
-			out.println();
+		if(userTuple.next()){
+			session.setAttribute("user", username);
 			response.sendRedirect(request.getContextPath() + "/customerUI.jsp");
 		}
+		else{
+			out.println("Invalid password <a href='login.jsp'>try again</a>");
+		}
+		
 		
 	} catch(Exception e){
 		out.println(e);
