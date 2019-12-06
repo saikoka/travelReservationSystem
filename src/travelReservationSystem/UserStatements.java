@@ -13,6 +13,38 @@ public final class UserStatements {
 	//TODO: Rest of queries lol
 	
 	//Yogesh Patel ymp20
+	static PreparedStatement createReservation(Connection con, String UserID) throws SQLException {
+		String statement = "Insert Into Reservation(UserID) Values (?)";
+		PreparedStatement ps = con.prepareStatement(statement);
+		
+		ps.setString(1, UserID);
+		
+		return ps;
+	}
+	//Yogesh Patel ymp20
+	static PreparedStatement getReservations(Connection con, String UserID) throws SQLException {
+		String statement = "Select ReservationID From Reservation Where UserID = ?";
+		PreparedStatement ps = con.prepareStatement(statement);
+		
+		ps.setString(1, UserID);
+		
+		return ps;
+	}
+	//Yogesh Patel ymp20
+	static PreparedStatement buyTicket(Connection con, int reservationID, int ticketID) throws SQLException {
+		String statement = "Update Ticket Set ReservationID = ? Where TicketID = ?";
+		PreparedStatement ps = con.prepareStatement(statement);
+		
+		ps.setString(1, Integer.toString(reservationID));
+		ps.setString(2, Integer.toString(ticketID));
+		
+		return ps;
+	}
+	//Yogesh Patel ymp20
+	static PreparedStatement getFlightListByDepartureTime(Date Depart) {
+		return null;
+	}
+	//Yogesh Patel ymp20
 	static PreparedStatement getFlightList(Connection con, Date departure, String departureAirport, String arrivalAirport) throws SQLException {
 		String departureDay = getDay(departure);
 		String statement = "Select * "
