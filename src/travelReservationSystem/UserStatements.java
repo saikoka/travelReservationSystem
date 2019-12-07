@@ -3,14 +3,12 @@ import java.io.*;
 import java.util.*;
 import java.sql.*;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
+
 import javax.servlet.http.*;
 import javax.servlet.*;
 
 public final class UserStatements {
-	//TODO: Add NumSeatsAvailable to flight in mysql 
-	//TODO: Add auto increment to ReservationID and TicketID in mysql
-	//TODO: Add random data to Database to run queries against
-	//TODO: Rest of queries lol
 	
 	//Yogesh Patel ymp20
 	static PreparedStatement createReservation(Connection con, String UserID) throws SQLException {
@@ -21,9 +19,35 @@ public final class UserStatements {
 		
 		return ps;
 	}
+
 	//Yogesh Patel ymp20
-	static PreparedStatement getReservations(Connection con, String UserID) throws SQLException {
-		String statement = "Select ReservationID From Reservation Where UserID = ?";
+	static PreparedStatement getPastReservations(Connection con, String UserID) throws SQLException {
+		String statement = "Select ReservationID From Reservation Where UserID = ? & ReservationID in ("
+				+ "Select ReservationID From Ticket Where UserID = ? & DATE(FlightDate) <= ?";
+		PreparedStatement ps = con.prepareStatement(statement);
+		Calendar cal = Calendar.getInstance();
+		Date now = new Date(cal.getTimeInMillis());
+		ps.setString(1, UserID);
+		ps.setString(2, UserID);
+		ps.setDate(3, now);
+		return ps;
+	}
+	//Yogesh Patel ymp20
+	static PreparedStatement getFutureReservations(Connection con, String UserID) throws SQLException {
+		String statement = "Select ReservationID From Reservation Where UserID = ? & ReservationID in ("
+				+ "Select ReservationID From Ticket Where UserID = ? & DATE(FlightDate) >= ?";
+		PreparedStatement ps = con.prepareStatement(statement);
+		Calendar cal = Calendar.getInstance();
+		Date now = new Date(cal.getTimeInMillis());
+		SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MMM-dd");
+		ps.setString(1, UserID);
+		ps.setString(2, UserID);
+		ps.setDate(3, now);
+		return ps;
+	}
+	//Yogesh Patel ymp20
+	static PreparedStatement getReservations(Connection con, String UserID, Date date) throws SQLException {
+		String statement = "Select ReservationID From Reservation Where UserID = ? ";
 		PreparedStatement ps = con.prepareStatement(statement);
 		
 		ps.setString(1, UserID);
@@ -146,6 +170,58 @@ public final class UserStatements {
 			break;
 		}
 		return day;
+	}
+	static PreparedStatement sortByPrice(Connection con, Date Departure) throws SQLException {
+		String DepartureDay= getDay(Departure);
+		String statement= "SELECT * FROM Flight NATURAL JOIN Ticket WHERE FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1) ORDER BY BookingFee";
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1, DepartureDay);
+		return ps;
+			
+	}
+	
+	static PreparedStatement sortByTakeOff(Connection con, Date Departure) throws SQLException {
+		String DepartureDay= getDay(Departure);
+		String statement= "SELECT * FROM Flight WHERE FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1) ORDER BY DepartureTime" ;
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1,DepartureDay);
+		return ps;
+	}
+	
+	static PreparedStatement sortByLandingTime(Connection con, Date Arrival) throws SQLException {
+		String ArrivalDay = getDay(Arrival);
+		String statement = "SELECT * FROM FLIGHT WHERE FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1) ORDER BY ArrivalTime";
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1,ArrivalDay);
+		return ps;
+	}
+	
+	static PreparedStatement getFlightListByPrice(Connection con, Date departure, String departureAirport, String arrivalAirport, int price) throws SQLException {
+		String departureDay = getDay(departure);
+		String statement = "Select * "
+				+ "From Flight NATURAL JOIN Ticket"
+				+ "where DepartureAirport = ? AND ArrivalAirport = ? AND BookingFee < ? AND FlightNumber in "
+				+ "(Select FlightNumber From Operates Where ? = 1) ";
+		
+		PreparedStatement ps = con.prepareStatement(statement);
+		
+		ps.setString(1, departureAirport);
+		ps.setString(2, arrivalAirport);
+		ps.setInt(3, price);
+		ps.setString(4, departureDay);
+		return ps;
+	}
+	static PreparedStatement filterbyNumStops(Connection con) {
+		
+	}
+	static PreparedStatement filterbyAirline(Connection con) {
+		
+	}
+	static PreparedStatement cancelReservation(Connection con) {
+		
+	}
+	static PreparedStatement enterWaitingList(Connection con) {
+		
 	}
 
 }
