@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class AdminStatements {
 	static PreparedStatement addCustomer(Connection con) throws SQLException {
-
+		
 	}
 	static PreparedStatement addCustomerRep(Connection con) throws SQLException {
 
