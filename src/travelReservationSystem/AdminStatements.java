@@ -47,8 +47,16 @@ public class AdminStatements {
 	static PreparedStatement getFlightWithMostTicketsSold(Connection con) throws SQLException {
 
 	}
-	static PreparedStatement getFlightsByAirport(Connection con) throws SQLException {
-
+	static PreparedStatement getFlightsByAirport(Connection con, String airport) throws SQLException {
+		String statement = "SELECT * "
+				 + "FROM Flight " 
+				 + "WHERE DepartureAirport = ? AND ArrivalAirport = ?";
+		
+		PreparedStatement ps = con.prepareStatement(statement);
+		
+		ps.setString(1, airport);
+		ps.setString(2, airport);
+		return ps;		    
 	}
 	
 }
