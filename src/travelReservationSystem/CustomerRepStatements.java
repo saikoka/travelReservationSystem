@@ -42,6 +42,7 @@ public class CustomerRepStatements {
 		
 		return ps;
 	}
+	//Yogesh Patel ymp20
 	static PreparedStatement addAirport(Connection con, String airportID) throws SQLException {
 		String statement = 
 				"INSERT INTO Airport"
@@ -52,6 +53,7 @@ public class CustomerRepStatements {
 		
 		return ps;
 	}
+	//Yogesh Patel ymp20
 	static PreparedStatement addFlight(Connection con,int flightNumber, Time arrival, Time departure, String arrivalAirport, String departureAirport,int aircraftNumber ) throws SQLException {
 		String statement = 
 				"INSERT INTO flight"
@@ -67,7 +69,7 @@ public class CustomerRepStatements {
 		
 		return ps;
 	}
-
+	//Yogesh Patel ymp20
 	static PreparedStatement editAircraft(Connection con,int aircraftID, int airlineID) throws SQLException {
 		String statement = 
 				"UPDATE TABLE Aircraft"
@@ -80,6 +82,7 @@ public class CustomerRepStatements {
 		
 		return ps;
 	}
+	//Yogesh Patel ymp20
 	static PreparedStatement editAirports(Connection con, String oldID, String newID) throws SQLException {
 		String statement = 
 				"UPDATE TABLE Airport"
@@ -95,6 +98,7 @@ public class CustomerRepStatements {
 	static PreparedStatement editFlights(Connection con) throws SQLException {
 		
 	}
+	//Yogesh Patel ymp20
 	static PreparedStatement deleteAircraft(Connection con, String aircraftID) throws SQLException {
 		String statement = "DELETE FROM Aircraft WHERE AircraftID = ?";
 		PreparedStatement ps = con.prepareStatement(statement);
@@ -103,6 +107,7 @@ public class CustomerRepStatements {
 		
 		return ps;
 	}
+	//Yogesh Patel ymp20
 	static PreparedStatement deleteAirport(Connection con, String airportID) throws SQLException {
 		String statement = "DELETE FROM Airport WHERE AirportID = ?";
 		PreparedStatement ps = con.prepareStatement(statement);
@@ -111,6 +116,7 @@ public class CustomerRepStatements {
 		
 		return ps;
 	}
+	//Yogesh Patel ymp20
 	static PreparedStatement deleteFlight(Connection con, int flightNumber) throws SQLException {
 		String statement = "DELETE FROM Flight WHERE FlightNumber = ?";
 		PreparedStatement ps = con.prepareStatement(statement);
