@@ -214,14 +214,31 @@ public final class UserStatements {
 	static PreparedStatement filterbyNumStops(Connection con) {
 		
 	}
-	static PreparedStatement filterbyAirline(Connection con) {
-		
+	static PreparedStatement filterbyAirline(Connection con, int Airline, Date departure, String DepartureAirport, String ArrivalAirport) throws SQLException{
+		String departureDay = getDay(departure);
+		String statement = "SELECT * FROM FLIGHT INNER JOIN Aircraft ON Flight.AircraftNumber=Aircraft.AircraftID WHERE DepartureAirport=? "
+				+ "AND ArrivalAirport= ? AND AirlineID=? AND FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1)";
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1,DepartureAirport);
+		ps.setString(2, ArrivalAirport);
+		ps.setInt(3, Airline);
+		ps.setString(4, departureDay);
+		return ps;
 	}
-	static PreparedStatement cancelReservation(Connection con) {
-		
+	static PreparedStatement cancelReservation(Connection con, String UserID, String ReservationID ) throws SQLException{
+		String statement= "DELETE FROM Reservation WHERE UserID = ? AND ReservationID= ?";
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1, UserID);
+		ps.setString(2, ReservationID);
+		return ps;
 	}
-	static PreparedStatement enterWaitingList(Connection con) {
-		
+	static PreparedStatement enterWaitingList(Connection con, int reservationID, int FlightNumber, int queue) throws SQLException{
+		String statement= "INSERT INTO WaitingList(FlightNumber, ReservationID, queue) VALUES(?,?,?)";
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setInt(1, FlightNumber);
+		ps.setInt(2, reservationID);
+		ps.setInt(3, queue);
+		return ps;
 	}
 
 }
