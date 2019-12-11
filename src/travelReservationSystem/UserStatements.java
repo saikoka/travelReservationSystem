@@ -11,7 +11,7 @@ import javax.servlet.*;
 public final class UserStatements {
 	
 	//Yogesh Patel ymp20
-	static PreparedStatement createReservation(Connection con, String UserID) throws SQLException {
+	public static PreparedStatement createReservation(Connection con, String UserID) throws SQLException {
 		String statement = "Insert Into Reservation(UserID) Values (?)";
 		PreparedStatement ps = con.prepareStatement(statement);
 		
@@ -21,7 +21,7 @@ public final class UserStatements {
 	}
 
 	//Yogesh Patel ymp20
-	static PreparedStatement getPastReservations(Connection con, String UserID) throws SQLException {
+	public static PreparedStatement getPastReservations(Connection con, String UserID) throws SQLException {
 		String statement = "Select ReservationID From Reservation Where UserID = ? & ReservationID in ("
 				+ "Select ReservationID From Ticket Where UserID = ? & DATE(FlightDate) <= ?";
 		PreparedStatement ps = con.prepareStatement(statement);
@@ -33,7 +33,7 @@ public final class UserStatements {
 		return ps;
 	}
 	//Yogesh Patel ymp20
-	static PreparedStatement getFutureReservations(Connection con, String UserID) throws SQLException {
+	public static PreparedStatement getFutureReservations(Connection con, String UserID) throws SQLException {
 		String statement = "Select ReservationID From Reservation Where UserID = ? & ReservationID in ("
 				+ "Select ReservationID From Ticket Where UserID = ? & DATE(FlightDate) >= ?";
 		PreparedStatement ps = con.prepareStatement(statement);
@@ -46,7 +46,7 @@ public final class UserStatements {
 		return ps;
 	}
 	//Yogesh Patel ymp20
-	static PreparedStatement getReservations(Connection con, String UserID, Date date) throws SQLException {
+	public static PreparedStatement getReservations(Connection con, String UserID, Date date) throws SQLException {
 		String statement = "Select ReservationID From Reservation Where UserID = ? ";
 		PreparedStatement ps = con.prepareStatement(statement);
 		
@@ -55,7 +55,7 @@ public final class UserStatements {
 		return ps;
 	}
 	//Yogesh Patel ymp20
-	static PreparedStatement buyTicket(Connection con, int reservationID, int ticketID) throws SQLException {
+	public static PreparedStatement buyTicket(Connection con, int reservationID, int ticketID) throws SQLException {
 		String statement = "Update Ticket Set ReservationID = ? Where TicketID = ?";
 		PreparedStatement ps = con.prepareStatement(statement);
 		
@@ -65,11 +65,11 @@ public final class UserStatements {
 		return ps;
 	}
 	//Yogesh Patel ymp20
-	static PreparedStatement getFlightListByDepartureTime(Date Depart) {
+	public static PreparedStatement getFlightListByDepartureTime(Date Depart) {
 		return null;
 	}
 	//Yogesh Patel ymp20
-	static PreparedStatement getFlightList(Connection con, Date departure, String departureAirport, String arrivalAirport) throws SQLException {
+	public static PreparedStatement getFlightList(Connection con, Date departure, String departureAirport, String arrivalAirport) throws SQLException {
 		String departureDay = getDay(departure);
 		String statement = "Select * "
 				+ "From Flight "
@@ -84,7 +84,7 @@ public final class UserStatements {
 		return ps;
 	}
 	//Yogesh Patel ymp20
-	static PreparedStatement getFlexibleFlightList(Connection con, Date departure, String departureAirport, String arrivalAirport) throws SQLException {
+	public static PreparedStatement getFlexibleFlightList(Connection con, Date departure, String departureAirport, String arrivalAirport) throws SQLException {
 		int departureDay = getDayInt(departure);
 		String statement = "Select * "
 				+ "From Flight "
@@ -171,7 +171,7 @@ public final class UserStatements {
 		}
 		return day;
 	}
-	static PreparedStatement sortByPrice(Connection con, Date Departure) throws SQLException {
+	public static PreparedStatement sortByPrice(Connection con, Date Departure) throws SQLException {
 		String DepartureDay= getDay(Departure);
 		String statement= "SELECT * FROM Flight NATURAL JOIN Ticket WHERE FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1) ORDER BY BookingFee";
 		PreparedStatement ps = con.prepareStatement(statement);
@@ -180,7 +180,7 @@ public final class UserStatements {
 			
 	}
 	
-	static PreparedStatement sortByTakeOff(Connection con, Date Departure) throws SQLException {
+	public static PreparedStatement sortByTakeOff(Connection con, Date Departure) throws SQLException {
 		String DepartureDay= getDay(Departure);
 		String statement= "SELECT * FROM Flight WHERE FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1) ORDER BY DepartureTime" ;
 		PreparedStatement ps = con.prepareStatement(statement);
@@ -188,7 +188,7 @@ public final class UserStatements {
 		return ps;
 	}
 	
-	static PreparedStatement sortByLandingTime(Connection con, Date Arrival) throws SQLException {
+	public static PreparedStatement sortByLandingTime(Connection con, Date Arrival) throws SQLException {
 		String ArrivalDay = getDay(Arrival);
 		String statement = "SELECT * FROM FLIGHT WHERE FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1) ORDER BY ArrivalTime";
 		PreparedStatement ps = con.prepareStatement(statement);
@@ -196,7 +196,7 @@ public final class UserStatements {
 		return ps;
 	}
 	
-	static PreparedStatement getFlightListByPrice(Connection con, Date departure, String departureAirport, String arrivalAirport, int price) throws SQLException {
+	public static PreparedStatement getFlightListByPrice(Connection con, Date departure, String departureAirport, String arrivalAirport, int price) throws SQLException {
 		String departureDay = getDay(departure);
 		String statement = "Select * "
 				+ "From Flight NATURAL JOIN Ticket"
@@ -211,10 +211,10 @@ public final class UserStatements {
 		ps.setString(4, departureDay);
 		return ps;
 	}
-	static PreparedStatement filterbyNumStops(Connection con) {
+	public static PreparedStatement filterbyNumStops(Connection con) {
 		
 	}
-	static PreparedStatement filterbyAirline(Connection con, int Airline, Date departure, String DepartureAirport, String ArrivalAirport) throws SQLException{
+	public static PreparedStatement filterbyAirline(Connection con, int Airline, Date departure, String DepartureAirport, String ArrivalAirport) throws SQLException{
 		String departureDay = getDay(departure);
 		String statement = "SELECT * FROM FLIGHT INNER JOIN Aircraft ON Flight.AircraftNumber=Aircraft.AircraftID WHERE DepartureAirport=? "
 				+ "AND ArrivalAirport= ? AND AirlineID=? AND FlightNumber in (SELECT FlightNumber FROM Operates WHERE ?=1)";
@@ -225,14 +225,14 @@ public final class UserStatements {
 		ps.setString(4, departureDay);
 		return ps;
 	}
-	static PreparedStatement cancelReservation(Connection con, String UserID, String ReservationID ) throws SQLException{
+	public static PreparedStatement cancelReservation(Connection con, String UserID, String ReservationID ) throws SQLException{
 		String statement= "DELETE FROM Reservation WHERE UserID = ? AND ReservationID= ?";
 		PreparedStatement ps = con.prepareStatement(statement);
 		ps.setString(1, UserID);
 		ps.setString(2, ReservationID);
 		return ps;
 	}
-	static PreparedStatement enterWaitingList(Connection con, int reservationID, int FlightNumber, int queue) throws SQLException{
+	public static PreparedStatement enterWaitingList(Connection con, int reservationID, int FlightNumber, int queue) throws SQLException{
 		String statement= "INSERT INTO WaitingList(FlightNumber, ReservationID, queue) VALUES(?,?,?)";
 		PreparedStatement ps = con.prepareStatement(statement);
 		ps.setInt(1, FlightNumber);

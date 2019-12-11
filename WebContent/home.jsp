@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+    pageEncoding="UTF-8" import="travelReservationSystem.*"%>
 <%@ page import="java.io.*,java.util.*,java.sql.*"%>
-<%@ page import="javax.servlet.http.*,javax.servlet.*" %>
+<%@ page import="javax.servlet.http.*,javax.servlet.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,7 +118,7 @@ The world at your fingertips...
 <div class = "navbar">
 <ul>
   <li><a class="active" href="#home">Find A Flight</a></li>
-  <li><a href="#login">Login</a></li>
+  <li><a href="logout.jsp">Logout</a></li>
 </ul>
 </div>
 
@@ -136,38 +136,31 @@ How to use the Grouptwo Flightfinder:
 Grouptwo Flightfinder:
 </h2>
 
-<div class="container">
+<form method="post" action="flightQueryResult.jsp">
+	<h3>
+	Where to and from?
+	</h3>
+	<input type="text" name="fromTextBox" value="Where from?">
+	<input type="text" name="toTextBox" value="Where to?">
+	
+	<h3>
+	What type of flight?
+	</h3>
+	<select name = "type">
+	  <option value="oneway">One-Way</option>
+	  <option value="roundtrip">Round-Trip</option>
+	  <option value="flexible">Flexible Date/Time</option>
+	</select>
+	
+	<h3>
+	When is the trip(yyyy-mm-dd))?
+	</h3>
+	<input value="startdatePicker" name = "startDate" type="date">
+	<input value="enddatePicker" name = "endDate" type="date">
+	<input type="submit" value="Query">
+</form>
 
-<div class="items">
-<h3>
-Where to and from?
-</h3>
-<input type="text" name="fromTextBox" value="Where from?">
-<input type="text" name="toTextBox" value="Where to?">
-</div>
 
-<div class="items">
-<h3>
-What type of flight?
-</h3>
-<select>
-  <option value="oneway">One-Way</option>
-  <option value="roundtrip">Round-Trip</option>
-  <option value="flexible">Flexible Date/Time</option>
-  </select>
-</div>
-
-<div class="items">
-<h3>
-When is the trip?
-</h3>
-<input value="startdatePicker" type="date">
-<input value="enddatePicker" type="date">
-</div>
-</div>
-
-<button value="searchButton"><b>Search For Flights</b>
-</button>
 <br>
 <br>
 <h3>
@@ -183,12 +176,12 @@ Results
       <th>End Date</th>
     </tr>
     <tr>
-      <td>Test</td>
-      <td>Test</td>
-      <td>Test</td>
-      <td>Test</td>
-      <td>Test</td>
-      <td>Test</td>
+      <td>Test1</td>
+      <td>Test2</td>
+      <td>Test3</td>
+      <td>Test4</td>
+      <td>Test5</td>
+      <td>Test6</td>
     </tr>
     <tr>
       <td>Test</td>
@@ -207,7 +200,6 @@ Results
       <td>Test</td>
   </tr>
 </table>
-
 
 
 

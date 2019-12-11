@@ -14,7 +14,7 @@
 Login:
 <br>
 
-	<form method="post" action="authenticateUser.jsp">
+	<form method="post" action="Actions/authenticateUser.jsp">
 	<table>
 	<tr>
 	<td>User Name:</td><td><input type="text" name="username"></td>
@@ -31,7 +31,7 @@ Login:
 Register:
 <br>
 
-	<form method="post" action="registerCustomer.jsp">
+	<form method="post" action="Actions/registerCustomer.jsp">
 	<table>
 	<tr>
 	<td>User Name:</td><td><input type="text" name="rusername"></td>

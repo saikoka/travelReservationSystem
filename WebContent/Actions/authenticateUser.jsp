@@ -37,9 +37,33 @@
 		
 		ResultSet userTuple = psGetUserTuple.executeQuery();
 		
+		String customerCheck = "Select * from Customer Where UserID = ?";
+		String customerRepCheck = "Select * from CustomerRep Where UserID = ?";
+		String adminCheck = "Select * from Admin Where UserID = ?";
+		
+		PreparedStatement psCustomer = con.prepareStatement(customerCheck);
+		PreparedStatement psCustomerRep = con.prepareStatement(customerRepCheck);
+		PreparedStatement psAdmin = con.prepareStatement(adminCheck);
+		
+		psCustomer.setString(1, username);
+		psCustomerRep.setString(1, username);
+		psAdmin.setString(1, username);
+		
+		ResultSet isCustomer = psCustomer.executeQuery();
+		ResultSet isCustomerRep = psCustomerRep.executeQuery();
+		ResultSet isAdmin = psAdmin.executeQuery();
 		if(userTuple.next()){
-			session.setAttribute("user", username);
-			response.sendRedirect(request.getContextPath() + "/customerUI.jsp");
+			if(isCustomer.next()){
+				session.setAttribute("user", username);
+				response.sendRedirect(request.getContextPath() + "/home.jsp");
+			} else if(isCustomerRep.next()){
+				session.setAttribute("user", username);
+				System.out.println(request.getContextPath());
+				response.sendRedirect(request.getContextPath() + "/customerRepPortal.jsp");
+			} else if(isAdmin.next()){
+				session.setAttribute("user", username);
+				response.sendRedirect(request.getContextPath() + "/adminPortal.jsp");
+			}
 		}
 		else{
 			out.println("Invalid password <a href='login.jsp'>try again</a>");
