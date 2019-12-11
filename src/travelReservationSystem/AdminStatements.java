@@ -5,23 +5,38 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class AdminStatements {
-	public static PreparedStatement addCustomer(Connection con) throws SQLException {
-		
+	static PreparedStatement addCustomer(Connection con, String UserID) throws SQLException {
+		String statement= "INSERT INTO Customer VALUES(?)"
+				+ "SELECT @UserID WHERE NOT EXISTS (SELECT UserID FROM Customer WHERE ?=@UserID)";
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1, UserID);
+		ps.setString(2, UserID);
+		return ps;
 	}
-	public static PreparedStatement addCustomerRep(Connection con) throws SQLException {
+	static PreparedStatement addCustomerRep(Connection con, String UserID) throws SQLException {
+		String statement= "INSERT INTO CustomerRep VALUES(?) SELECT @UserID WHERE NOT EXISTS (SELECT UserID FROM CustomerRep WHERE ?=@UserId)";
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1, UserID);
+		ps.setString(2, UserID);
+		return ps;
+	}
+	static PreparedStatement editCustomer(Connection con) throws SQLException {
 
 	}
-	public static PreparedStatement editCustomer(Connection con) throws SQLException {
+	static PreparedStatement editCustomerRep(Connection con) throws SQLException {
 
 	}
-	public static PreparedStatement editCustomerRep(Connection con) throws SQLException {
-
+	static PreparedStatement deleteCustomer(Connection con, String UserID) throws SQLException {
+			String statement= "DELETE FROM Customer WHERE UserID=?";
+			PreparedStatement ps = con.prepareStatement(statement);
+			ps.setString(1, UserID);
+			return ps;
 	}
-	public static PreparedStatement deleteCustomer(Connection con) throws SQLException {
-
-	}
-	public static PreparedStatement deleteCustomerRep(Connection con) throws SQLException {
-
+	static PreparedStatement deleteCustomerRep(Connection con, String UserID) throws SQLException {
+			String statement= "DELETE FROM CustomerRep WHERE UserID=?";
+			PreparedStatement ps = con.prepareStatement(statement);
+			ps.setString(1, UserID);
+			return ps;
 	}
 	public static PreparedStatement obtainSalesReport(Connection con, String userID) throws SQLException {
 		String statement = "SELECT r.ReservationID, SUM(t.BookingFee) AS Revenue"
