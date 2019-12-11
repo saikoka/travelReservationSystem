@@ -48,7 +48,7 @@ public class AdminStatements {
 		return ps;	
 	}
 	public static PreparedStatement getRevenueByFlight(Connection con, int flightNumber) throws SQLException {
-		String statement = "SELECT t.FlightNumber, SUM(t.BookingFee) AS Revenue"
+		String statement = "SELECT t.FlightNumber, t.BookingFee"
 				 + "FROM Ticket AS t"
 				 + "WHERE t.FlightNumber = ?";
 		
