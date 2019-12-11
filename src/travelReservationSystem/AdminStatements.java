@@ -45,14 +45,13 @@ public class AdminStatements {
 
 	}
 	public static PreparedStatement getFlightWithMostTicketsSold(Connection con) throws SQLException {
-		String statement = "(SELECT s.flightNumber "
-				+ "FROM (SELECT t.flightNumber, COUNT(*) AS count "
-				+ "FROM Ticket AS t "
-				+ "GROUP BY t.flightNumber"
-				+ "HAVING count = (SELECT COUNT(*) AS count "
-				+ "FROM docs AS u "
-				+ "GROUP BY u.flightNumber "
-				+ "LIMIT 1)) AS s) ";
+		String statement = "SELECT s.flightNumber, COUNT(*) AS numberOfTickets"
+				 + "FROM Ticket AS s"
+				 + "GROUP BY s.flightNumber"
+				 + "HAVING numberOfTickets = (SELECT COUNT(*) AS count"
+							   + "FROM Ticket AS t"
+							   + "GROUP BY t.flightNumber"
+							   + "LIMIT 1)";
 
 		PreparedStatement ps = con.prepareStatement(statement);
 		
