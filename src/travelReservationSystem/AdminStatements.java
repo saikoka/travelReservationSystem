@@ -23,8 +23,18 @@ public class AdminStatements {
 	public static PreparedStatement deleteCustomerRep(Connection con) throws SQLException {
 
 	}
-	public static PreparedStatement obtainSalesReport(Connection con) throws SQLException {
-
+	public static PreparedStatement obtainSalesReport(Connection con, String userID) throws SQLException {
+		String statement = "SELECT r.ReservationID, SUM(t.BookingFee) AS Revenue"
+				 + "FROM Ticket AS t JOIN Reservation AS r JOIN CustomerRep AS c"
+				 + "ON t.ReservationID = r.ReservationID AND r.UserID = c.UserID"
+				 + "WHERE c.UserID = ?"
+				 + "GROUP BY r.ReservationID"
+				 + "ORDER BY Revenue DESC";
+		
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1, userID);
+		
+		return ps;
 	}
 	public static PreparedStatement getReservationByFlightNumber(Connection con, int flightNumber) throws SQLException {
 		String statement = "SELECT r.ReservationID, r.UserID"
