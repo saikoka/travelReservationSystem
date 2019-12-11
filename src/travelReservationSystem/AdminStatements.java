@@ -26,8 +26,16 @@ public class AdminStatements {
 	public static PreparedStatement obtainSalesReport(Connection con) throws SQLException {
 
 	}
-	public static PreparedStatement getReservationByFlightNumber(Connection con) throws SQLException {
-
+	public static PreparedStatement getReservationByFlightNumber(Connection con, int flightNumber) throws SQLException {
+		String statement = "SELECT r.ReservationID, r.UserID"
+				 + "FROM Ticket AS t JOIN Reservation AS r"
+				 + "ON t.ReservationID = r.ReservationID"
+				 + "WHERE t.FlightNumber = ?";
+		
+		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setInt(1, flightNumber);
+		
+		return ps;
 	}
 	public static PreparedStatement getReservationByCustomerName(Connection con) throws SQLException {
 
