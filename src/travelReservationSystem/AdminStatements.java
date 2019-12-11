@@ -70,14 +70,16 @@ public class AdminStatements {
 		
 		return ps;
 	}
-	public static PreparedStatement getRevenueByCustomerName(Connection con) throws SQLException {
-		String statement = "SELECT c.UserID, SUM(BookingFee) AS Revenue"
-				 + "FROM Ticket AS t JOIN Reservation AS r JOIN Customer AS c
-				 + "ON t.ReservationID = r.ReservationID AND r.UserID = c.UserID
-				 + "GROUP BY c.UserID"
-				 + "ORDER BY Revenue DESC";
+	public static PreparedStatement getRevenueByCustomerName(Connection con, String userID) throws SQLException {
+		String statement = "SELECT c.UserID, r.ReservationID, SUM(t.BookingFee) AS Revenue"
+				 + "FROM Ticket AS t JOIN Reservation AS r JOIN Customer AS c"
+				 + "ON t.ReservationID = r.ReservationID AND r.UserID = c.UserID"
+				 + "WHERE c.UserID = ?"
+				 + "GROUP BY r.ReservationID"
+				 + "ORDER BY t.BookingFee DESC";
 		
 		PreparedStatement ps = con.prepareStatement(statement);
+		ps.setString(1, userID);
 		
 		return ps;
 	}
