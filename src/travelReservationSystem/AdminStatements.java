@@ -42,8 +42,21 @@ public class AdminStatements {
 
 	}
 	public static PreparedStatement getMostRevenueCustomerName(Connection con) throws SQLException {
-
-	}
+		String statement = "SELECT c.UserID, SUM(BookingFee) AS Revenue"
+				 + "FROM Ticket AS t JOIN Reservation AS r JOIN Customer AS c"
+				 + "ON t.ReservationID = r.ReservationID AND r.UserID = c.UserID"
+				 + "GROUP BY c.UserID"
+				 + "HAVING Revenue = (SELECT SUM(BookingFee) AS Revenue"
+						   + "FROM Ticket AS t JOIN Reservation AS r JOIN Customer AS c"
+						   + "ON t.ReservationID = r.ReservationID AND r.UserID = c.UserID"
+						   + "GROUP BY c.UserID"
+						   + "ORDER BY Revenue DESC"
+						   + "LIMIT 1)"
+			
+		PreparedStatement ps = con.prepareStatement(statement);
+		
+		return ps;
+	}	
 	public static PreparedStatement getFlightWithMostTicketsSold(Connection con) throws SQLException {
 		String statement = "SELECT s.flightNumber, COUNT(*) AS numberOfTickets"
 				 + "FROM Ticket AS s"
