@@ -36,7 +36,15 @@ public class AdminStatements {
 
 	}
 	public static PreparedStatement getRevenueByAirline(Connection con) throws SQLException {
-
+		String statement = (SELECT a.AirlineID, SUM(BookingFee) AS Revenue"
+				 + "FROM Ticket AS t JOIN Flight AS f JOIN Aircraft AS a"
+				 + "ON t.FlightNumber = f.FlightNumber AND f.AircraftID = a.AircraftID"
+				 + "GROUP BY a.AirlineID"
+				 + "ORDER BY Revenue DESC";
+				    
+		PreparedStatement ps = con.prepareStatement(statement);
+		
+		return ps;
 	}
 	public static PreparedStatement getRevenueByCustomerName(Connection con) throws SQLException {
 		String statement = "SELECT c.UserID, SUM(BookingFee) AS Revenue"
